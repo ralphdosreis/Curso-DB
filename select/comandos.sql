@@ -174,16 +174,10 @@ SELECT "categoria", AVG("preco") AS "preco_medio" FROM "produtos" GROUP BY "cate
 
 SELECT * FROM "produtos" WHERE "preco" > (SELECT AVG("preco") FROM "produtos"); -- Uso de Sbquery para selecionar os produtos com preco maior que a média de precos
 
-CREATE TABLE "lessons" (
-    "id" INTEGER PRIMARY KEY,
-    "courses" TEXT NOT NULL,
-    "slug" TEXT NOT NULL
-) STRICT;
+SELECT * FROM "produtos" WHERE "preco" > (SELECT AVG("preco") FROM "produtos"); -- Usa-se uma Subquery para filtrar os produtos que possuem os preços menores que a média de preços
 
-INSERT INTO "lessons" ("courses", "slug")
-VALUES
-    ('JavaScript', 'javascript-basico'),
-    ('JavaScript', 'javascript-avancado');
+WITH "preco_medio" AS (
+    SELECT AVG("preco") AS "media" FROM "produtos"
+) -- Cria-se uma subquery temporaria, que pode ser referenciada na query principal. Não se fecha com ; pois a continuação dela vem abaixo
 
-SELECT * FROM "lessons"
-WHERE "course_id" = (SELECT "id" FROM "courses" WHERE "slug" = 'javascript-basico');
+SELECT * FROM "produtos" WHERE "preco" > (SELECT "media" FROM "preco_medio");
