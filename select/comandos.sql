@@ -171,3 +171,19 @@ SELECT STRFTIME('%Y', "criado") AS "ano", COUNT(*) AS "total" FROM "produtos" GR
 SELECT "categoria", COUNT(*) AS "total" FROM "produtos" GROUP BY "categoria" HAVING "total" > 1; -- HAVING funciona como WHERE após o GROUP BY
 
 SELECT "categoria", AVG("preco") AS "preco_medio" FROM "produtos" GROUP BY "categoria" HAVING "preco_medio" > 70000; -- Retorna as categorias de produtos que as somas de seus valores foram superiores a 70000
+
+SELECT * FROM "produtos" WHERE "preco" > (SELECT AVG("preco") FROM "produtos"); -- Uso de Sbquery para selecionar os produtos com preco maior que a média de precos
+
+CREATE TABLE "lessons" (
+    "id" INTEGER PRIMARY KEY,
+    "courses" TEXT NOT NULL,
+    "slug" TEXT NOT NULL
+) STRICT;
+
+INSERT INTO "lessons" ("courses", "slug")
+VALUES
+    ('JavaScript', 'javascript-basico'),
+    ('JavaScript', 'javascript-avancado');
+
+SELECT * FROM "lessons"
+WHERE "course_id" = (SELECT "id" FROM "courses" WHERE "slug" = 'javascript-basico');
