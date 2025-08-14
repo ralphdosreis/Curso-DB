@@ -34,7 +34,7 @@ INSERT INTO "produtos" ("nome","categoria","preco","taxa_importacao","estoque","
 ('Impressora 3D Mini','impressora',249900,0,20,0,'2049-10-06 08:38:41'),
 ('Alto-falante WiFi Pro','audio',34900,0,100,0,'2049-11-02 16:25:55'),
 ('Câmera de Ação 4K','video',89900,7000,45,0,'2049-11-21 13:56:12'),
-('Roteador WiFi 6E','rede',64900,0,75,0,'2049-12-06 11:11:11');-C','acessorio',9900,0,200,0,'2048-03-11 08:47:13'),
+('Roteador WiFi 6E','rede',64900,0,75,0,'2049-12-06 11:11:11'),
 ('Webcam 1080p','video',17900,3500,110,0,'2048-04-01 16:32:40'),
 ('SSD NVMe 1TB','armazenamento',57900,0,70,0,'2048-04-19 13:21:05'),
 ('Cadeira Ergonômica',null,139900,12000,0,0,'2048-05-03 09:14:22'),
@@ -54,6 +54,7 @@ INSERT INTO "produtos" ("nome","categoria","preco","taxa_importacao","estoque","
 ('Câmera de Ação 4K','video',89900,7000,45,0,'2049-11-21 13:56:12'),
 ('Roteador WiFi 6E','rede',64900,0,75,0,'2049-12-06 11:11:11');
 
+SELECT * FROM "produtos";
 
 SELECT * FROM "produtos" WHERE "preco" < 50000;
 
@@ -152,3 +153,21 @@ SELECT DATETIME('now', '-03:00'); -- Retorna a data e hora atual ou converte uma
 SELECT CURRENT_TIMESTAMP; -- Retorna a data e hora atual de acordo com UTC 00
 
 SELECT STRFTIME('%Y-%m-%d %H:%M:%S', 'now', '-03:00'); -- Formata uma data e hora em uma string
+
+SELECT * FROM "produtos" ORDER BY "preco" ASC; -- Ordena os resultados da consulta, a forma padrão é acendente(menor para maior)
+
+SELECT * FROM "produtos" ORDER BY "preco" DESC; -- Ordena de forma descente(maior para menor)
+
+SELECT * FROM "produtos" ORDER BY "categoria" ASC, "preco" ASC; -- Ordena primeiro a categoria e depois o preço
+
+SELECT * FROM "produtos" ORDER BY "criado" DESC; -- Ordena por data
+
+SELECT "categoria", COUNT(*) AS "total" FROM "produtos" GROUP BY "categoria"; -- Agrupa por categoria e soma o total de cada categoria e retorna em ordem crescente
+
+SELECT "categoria", COUNT(*) AS "total" FROM "produtos" GROUP BY "categoria" ORDER BY "total" DESC; -- Para selecionar a ordem de ordenação usa-se em conjunto ORDER BY, pois por padrão GROUP BY ordena de forma crescente
+
+SELECT STRFTIME('%Y', "criado") AS "ano", COUNT(*) AS "total" FROM "produtos" GROUP BY "ano"; -- Agrupa por ano e retorna no total a quantidade de cada grupo de anos
+
+SELECT "categoria", COUNT(*) AS "total" FROM "produtos" GROUP BY "categoria" HAVING "total" > 1; -- HAVING funciona como WHERE após o GROUP BY
+
+SELECT "categoria", AVG("preco") AS "preco_medio" FROM "produtos" GROUP BY "categoria" HAVING "preco_medio" > 70000; -- Retorna as categorias de produtos que as somas de seus valores foram superiores a 70000
